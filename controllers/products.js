@@ -8,4 +8,17 @@ routes.get('/', async (_req, res) => {
     return res.status(200).json(rows);
 });
 
+routes.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [rows] = await products.getProducts(id);
+        if (rows.length === 0) {
+            res.status(404).json({ message: 'Product not found' }); 
+        }
+        res.status(200).json(rows);
+    } catch (error) {
+        res.status(404).json({ message: 'Product not found' }); 
+    }
+});
+
 module.exports = routes;
