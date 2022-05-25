@@ -1,5 +1,6 @@
 const express = require('express');
 const products = require('../services/products');
+const middlewares = require('../middlewares');
 
 const routes = express.Router();
 
@@ -20,5 +21,7 @@ routes.get('/:id', async (req, res) => {
         res.status(404).json({ message: 'Product not found' }); 
     }
 });
+
+routes.use(middlewares.errorHandler);
 
 module.exports = routes;
