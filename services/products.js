@@ -9,7 +9,10 @@ const getProducts = (id = null) => {
 
 const createProducts = ({ name, quantity }) => productsModel.addProducts(name, quantity);
 
+const repeatProduct = (name) => productsModel.checkProducts(name);
+
 module.exports = {
     getProducts,
     createProducts,
+    repeatProduct,
 };
