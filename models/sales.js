@@ -31,7 +31,31 @@ const getById = async (id) => {
         );
         return result.map(changeRequisitionById);
 };
+const addSalesNow = async () => {
+    const today = new Date(Date.now()); // freeCodeCamp
+    today.toISOString(); // freeCodeCamp
+    const [sales] = await connection.execute(
+        'INSERT INTO sales (date) VALUES (?);', [today],
+    );
+    return sales.insertId;
+};
+
+const addSalesProducts = async (id, { productId, quantity }) => {
+    const [salesProducts] = await connection.execute(
+        'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);', 
+        [id, productId, quantity],
+    );
+    return salesProducts.affectedRows;
+};
+
 module.exports = {
     getAll,
     getById,
+    addSalesNow,
+    addSalesProducts,
 };
+
+// {
+//     id: salesProducts.insertId, 
+//     itemsSold: 
+// };
