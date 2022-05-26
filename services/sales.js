@@ -7,6 +7,16 @@ const getSales = (id = null) => {
     return salesModel.getAll();
 };
 
+const createSales = async (body) => {
+    const idSales = await salesModel.addSalesNow();
+    await Promise.all(body.map((sales) => salesModel.addSalesProducts(idSales, sales)));
+    return {
+        id: idSales,
+        itemsSold: body,
+    };
+};
+
 module.exports = {
     getSales,
+    createSales,
 };
