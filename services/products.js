@@ -7,6 +7,9 @@ const getProducts = (id = null) => {
     return productsModel.getAll();
 };
 
+const createProducts = ({ name, quantity }) => productsModel.addProducts(name, quantity);
+
 module.exports = {
     getProducts,
+    createProducts,
 };
