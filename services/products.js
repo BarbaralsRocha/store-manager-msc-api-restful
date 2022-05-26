@@ -13,9 +13,12 @@ const repeatProduct = (name) => productsModel.checkProducts(name);
 
 const updateProducts = (id, { name, quantity }) => productsModel.update(id, name, quantity);
 
+const deleteProducts = (id) => productsModel.deleteProduct(id);
+
 module.exports = {
     getProducts,
     createProducts,
     repeatProduct,
     updateProducts,
+    deleteProducts,
 };
