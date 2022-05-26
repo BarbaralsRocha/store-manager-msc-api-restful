@@ -21,8 +21,15 @@ const addProducts = async (name, quantity) => {
     return result;
 };
 
+const checkProducts = async (name) => {
+    const [result] = await connection.execute('SELECT * FROM products WHERE name = ?;', [name]);
+    console.log(result.length);
+    return result.length;
+};
+
 module.exports = { 
     getAll,
     getById,
     addProducts,
+    checkProducts,
 };
