@@ -28,8 +28,17 @@ routes.post('/', middlewares.validationProducts, async (req, res) => {
     if (await products.repeatProduct(name) === 1) {
         return res.status(201).json(result);
     }
-    
         return res.status(409).json({ message: 'Product already exists' });
+});
+
+routes.put('/:id', middlewares.validationProducts, async (req, res) => {
+        const { id } = req.params;
+        const { name, quantity } = req.body;
+        const result = await products.updateProducts(id, req.body);
+        if (result) {
+          return res.status(200).json({ id, name, quantity }); 
+        }
+        res.status(404).json({ message: 'Product not found' });
 });
 
 routes.use(middlewares.errorHandler);
