@@ -22,6 +22,11 @@ routes.get('/:id', async (req, res) => {
     }
 });
 
+routes.post('/', middlewares.validationSales, async (req, res) => {
+    const result = await sales.createSales(req.body);
+    return res.status(201).json(result);
+});
+
 routes.use(middlewares.errorHandler);
 
 module.exports = routes;
