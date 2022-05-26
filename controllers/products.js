@@ -41,6 +41,15 @@ routes.put('/:id', middlewares.validationProducts, async (req, res) => {
         res.status(404).json({ message: 'Product not found' });
 });
 
+routes.delete('/:id', async (req, res) => {
+        const { id } = req.params;
+        const result = await products.deleteProducts(id);
+        if (result) {
+          return res.status(204).json(result); 
+        }
+        res.status(404).json({ message: 'Product not found' });
+});
+
 routes.use(middlewares.errorHandler);
 
 module.exports = routes;
