@@ -27,6 +27,16 @@ routes.post('/', middlewares.validationSales, async (req, res) => {
     return res.status(201).json(result);
 });
 
+routes.put('/:id', middlewares.validationProducts, async (req, res) => {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const result = await sales.updateSales(id, req.body);
+    if (result) {
+      return res.status(200).json({ id, name, quantity }); 
+    }
+    res.status(404).json({ message: 'Product not found' });
+});
+
 routes.use(middlewares.errorHandler);
 
 module.exports = routes;
