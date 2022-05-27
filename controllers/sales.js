@@ -25,13 +25,14 @@ routes.get('/:id', async (req, res) => {
 
 routes.post('/', middlewares.validationSales, async (req, res) => {
     const result = await sales.createSales(req.body);
+    await sales.stockSales(result.itemsSold[0].productId, result.id);
     return res.status(201).json(result);
 });
 
-routes.put('/:id', middlewares.validationSales, async (req, res) => {
+routes.put('/:id', async (req, res) => {
     const { id } = req.params;
     const [{ productId, quantity }] = req.body;
-    const result = await sales.updateSales(id, productId, quantity);
+    const result = await sales.updateSales(+id, productId, quantity);
     console.log(result);
     if (result) {
       return res.status(200).json(result); 

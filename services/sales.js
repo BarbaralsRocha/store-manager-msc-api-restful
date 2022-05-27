@@ -17,6 +17,7 @@ const createSales = async (body) => {
 };
 
 const updateSales = async (id, productId, quantity) => {
+    console.log(await salesModel.update(id, productId, quantity));
     await salesModel.update(id, productId, quantity);
     return {
         saleId: id,
@@ -31,9 +32,12 @@ const updateSales = async (id, productId, quantity) => {
 
 const deleteSales = (id) => salesModel.deleteSales(id);
 
+const stockSales = (id, saleId) => salesModel.stockProduct(id, saleId);
+
 module.exports = {
     getSales,
     createSales,
     updateSales,
     deleteSales,
+    stockSales,
 };
