@@ -9,10 +9,20 @@ const getSales = (id = null) => {
 
 const createSales = async (body) => {
     const idSales = await salesModel.addSalesNow();
-    await Promise.all(body.map((sales) => salesModel.addSalesProducts(idSales, sales)));
+    const result = await Promise.all(body.map((sales) => (
+        salesModel.addSalesProducts(idSales, sales))));
+    console.log('result', result);
+    if (result[0] === null) {
+ return { status: 422, 
+        message: 'Such amount is not permitted to sell', 
+    }; 
+} 
     return {
+        status: 201, 
+        sales: {
         id: idSales,
         itemsSold: body,
+        },
     };
 };
 

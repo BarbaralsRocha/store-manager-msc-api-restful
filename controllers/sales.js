@@ -25,8 +25,11 @@ routes.get('/:id', async (req, res) => {
 
 routes.post('/', middlewares.validationSales, async (req, res) => {
     const result = await sales.createSales(req.body);
-    await sales.stockSales(result.itemsSold[0].productId, result.id);
-    return res.status(201).json(result);
+    if (result.status === 422) {
+        return res.status(result.status).json({ message: result.message });
+    }
+    await sales.stockSales(result.sales.itemsSold[0].productId, result.sales.id);
+    return res.status(result.status).json(result.sales);
 });
 
 routes.put('/:id', async (req, res) => {

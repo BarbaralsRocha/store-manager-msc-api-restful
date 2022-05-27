@@ -41,6 +41,11 @@ const addSalesNow = async () => {
 };
 
 const addSalesProducts = async (id, { productId, quantity }) => {
+    const [quantityProduct] = await connection.execute(
+        'SELECT quantity FROM products WHERE id = ?', [productId],
+);
+        console.log('quantity', quantityProduct[0].quantity);
+    if (quantityProduct[0].quantity - quantity <= 0) return null;
     const [salesProducts] = await connection.execute(
         'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);', 
         [id, productId, quantity],
@@ -73,7 +78,7 @@ const deleteSales = async (id) => {
     const [quantityProduct] = await connection.execute(
         'SELECT quantity FROM products WHERE id = ?', [quantitySales[0].product_id],
 );
-        const stock = quantitySales[0].quantity + quantityProduct[0].quantity
+        const stock = quantitySales[0].quantity + quantityProduct[0].quantity;
     await connection.execute(
         `UPDATE products
         SET quantity = ?
