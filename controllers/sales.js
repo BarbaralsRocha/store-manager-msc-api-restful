@@ -13,6 +13,7 @@ routes.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const rows = await sales.getSales(id);
+        console.log(rows);
         if (rows.length === 0) {
             res.status(404).json({ message: 'Sale not found' }); 
         }
@@ -27,13 +28,22 @@ routes.post('/', middlewares.validationSales, async (req, res) => {
     return res.status(201).json(result);
 });
 
-routes.put('/:id', async (req, res) => {
+routes.put('/:id', middlewares.validationSales, async (req, res) => {
     const { id } = req.params;
     const [{ productId, quantity }] = req.body;
     const result = await sales.updateSales(id, productId, quantity);
     console.log(result);
     if (result) {
       return res.status(200).json(result); 
+    }
+    res.status(404).json({ message: 'Sale not found' });
+});
+
+routes.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    const result = await sales.deleteSales(id);
+    if (result) {
+      return res.status(204).json(result); 
     }
     res.status(404).json({ message: 'Sale not found' });
 });

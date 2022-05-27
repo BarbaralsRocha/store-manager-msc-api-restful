@@ -29,8 +29,11 @@ const updateSales = async (id, productId, quantity) => {
     };
 };
 
+const deleteSales = (id) => salesModel.deleteSales(id);
+
 module.exports = {
     getSales,
     createSales,
     updateSales,
+    deleteSales,
 };
