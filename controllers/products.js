@@ -5,21 +5,14 @@ const middlewares = require('../middlewares');
 const routes = express.Router();
 
 routes.get('/', async (_req, res) => {
-    const [rows] = await products.getProducts();
-    return res.status(200).json(rows);
+        const { status, code } = await products.getProducts();
+        return res.status(status).json(code);
 });
 
 routes.get('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const [rows] = await products.getProducts(id);
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'Product not found' }); 
-        }
-        return res.status(200).json(rows);
-    } catch (error) {
-        return res.status(404).json({ message: 'Product not found' }); 
-    }
+    const { id } = req.params;
+    const { status, code } = await products.getProducts(id);
+    return res.status(status).json(code);
 });
 
 routes.post('/', middlewares.validationProducts, async (req, res) => {

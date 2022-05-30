@@ -1,10 +1,16 @@
 const productsModel = require('../models/products');
 
-const getProducts = (id = null) => {
+const getProducts = async (id = null) => {
     if (id) {
-        return productsModel.getById(id);
+        const [rows] = await productsModel.getById(id);
+        const message = 'Product not found';
+        if (!rows[0]) {
+            return { status: 404, code: { message } };
+        }
+        return { status: 200, code: rows[0] };
     }
-    return productsModel.getAll();
+    const [rows] = await productsModel.getAll();
+    return { status: 200, code: rows };
 };
 
 const createProducts = ({ name, quantity }) => productsModel.addProducts(name, quantity);

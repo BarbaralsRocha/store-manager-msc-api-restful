@@ -4,10 +4,7 @@ const getAll = () => (
     connection.execute('SELECT * FROM products;')
 );
 
-const getById = async (id) => {
-    const [result] = await connection.execute('SELECT * FROM products WHERE id = ?', [id]);
-    return result;
-};
+const getById = (id) => connection.execute('SELECT * FROM products WHERE id = ?', [id]);
 
 const addProducts = async (name, quantity) => {
     const [product] = await connection.execute(

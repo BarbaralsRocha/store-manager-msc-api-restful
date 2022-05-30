@@ -25,14 +25,12 @@ const getAll = async () => {
 
 const getById = async (id) => {
     const [result] = await connection.execute(
-        `SELECT * FROM sales_products sp 
+        `SELECT sp.quantity, sp.sale_id, sp.product_id, s.date 
+        FROM sales_products sp 
         INNER JOIN products p ON p.id = sp.product_id
         INNER JOIN sales s ON s.id = sp.sale_id
         WHERE sale_id = ?`, [id],
         );
-        // console.log('result', result)
-        // const [teste] = await connection.execute('SELECT * FROM sales_products');
-        // console.log('teste', teste);
         return result.map(changeRequisitionById);
 };
 const addSalesNow = async () => {
