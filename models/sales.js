@@ -31,8 +31,8 @@ const getById = async (id) => {
         WHERE sale_id = ?`, [id],
         );
         // console.log('result', result)
-        const [teste] = await connection.execute('SELECT * FROM sales_products');
-        console.log('teste', teste);
+        // const [teste] = await connection.execute('SELECT * FROM sales_products');
+        // console.log('teste', teste);
         return result.map(changeRequisitionById);
 };
 const addSalesNow = async () => {

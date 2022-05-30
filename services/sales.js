@@ -27,7 +27,7 @@ const createSales = async (body) => {
 };
 
 const updateSales = async (id, productId, quantity) => {
-    console.log('update', await salesModel.update(id, productId, quantity));
+    // console.log('update', await salesModel.update(id, productId, quantity));
     await salesModel.update(id, productId, quantity);
     return {
         saleId: id,
