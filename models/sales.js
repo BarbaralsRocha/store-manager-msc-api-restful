@@ -52,6 +52,7 @@ const addSalesProducts = async (id, { productId, quantity }) => {
         'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);', 
         [id, productId, quantity],
     );
+    console.log(salesProducts);
     return salesProducts.affectedRows;
 };
 

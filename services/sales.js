@@ -13,9 +13,9 @@ const createSales = async (body) => {
     salesModel.addSalesProducts(idSales, sales))));
     console.log('result', result);
     if (result[0] === null) {
- return { status: 422, 
-        message: 'Such amount is not permitted to sell', 
-    }; 
+    return { status: 422, 
+            message: 'Such amount is not permitted to sell', 
+        }; 
 } 
     return {
         status: 201, 
