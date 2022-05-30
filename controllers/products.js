@@ -35,10 +35,9 @@ routes.put('/:id', middlewares.validationProducts, async (req, res) => {
 });
 
 routes.delete('/:id', async (req, res) => {
-        const { id } = req.params;
-        const result = await products.deleteProducts(id);
+        const result = await products.deleteProducts(req.params.id);
         if (result) {
-          return res.status(204).json(result); 
+          return res.status(204).end();
         }
         return res.status(404).json({ message: 'Product not found' });
 });

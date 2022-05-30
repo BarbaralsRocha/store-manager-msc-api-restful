@@ -47,7 +47,7 @@ routes.delete('/:id', async (req, res) => {
     const { id } = req.params;
     const result = await sales.deleteSales(id);
     if (result) {
-      return res.status(204).json(result); 
+      return res.status(204).end(); 
     }
     return res.status(404).json({ message: 'Sale not found' });
 });
