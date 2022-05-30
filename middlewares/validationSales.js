@@ -4,7 +4,7 @@ const productsDTO = Joi.array().items(
     {
     date: Joi.date().iso(),
     productId: Joi.number().required(),
-    quantity: Joi.number().positive().required(),
+    quantity: Joi.number().integer().positive().required(),
     },
 ).required().messages({
     'any.required': '400|{{#label}} is required',

@@ -13,13 +13,14 @@ routes.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const rows = await sales.getSales(id);
+        // console.log('rows' ,rows)
         console.log(rows);
         if (rows.length === 0) {
-            res.status(404).json({ message: 'Sale not found' }); 
+            return res.status(404).json({ message: 'Sale not found' }); 
         }
-        res.status(200).json(rows);
+        return res.status(200).json(rows);
     } catch (error) {
-        res.status(404).json({ message: 'Sale not found' }); 
+        return res.status(404).json({ message: 'Sale not found' }); 
     }
 });
 
@@ -36,11 +37,10 @@ routes.put('/:id', async (req, res) => {
     const { id } = req.params;
     const [{ productId, quantity }] = req.body;
     const result = await sales.updateSales(+id, productId, quantity);
-    console.log(result);
     if (result) {
       return res.status(200).json(result); 
     }
-    res.status(404).json({ message: 'Sale not found' });
+    return res.status(404).json({ message: 'Sale not found' });
 });
 
 routes.delete('/:id', async (req, res) => {
@@ -49,7 +49,7 @@ routes.delete('/:id', async (req, res) => {
     if (result) {
       return res.status(204).json(result); 
     }
-    res.status(404).json({ message: 'Sale not found' });
+    return res.status(404).json({ message: 'Sale not found' });
 });
 
 routes.use(middlewares.errorHandler);

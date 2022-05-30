@@ -14,11 +14,11 @@ routes.get('/:id', async (req, res) => {
         const { id } = req.params;
         const [rows] = await products.getProducts(id);
         if (rows.length === 0) {
-            res.status(404).json({ message: 'Product not found' }); 
+            return res.status(404).json({ message: 'Product not found' }); 
         }
-        res.status(200).json(rows);
+        return res.status(200).json(rows);
     } catch (error) {
-        res.status(404).json({ message: 'Product not found' }); 
+        return res.status(404).json({ message: 'Product not found' }); 
     }
 });
 
@@ -38,7 +38,7 @@ routes.put('/:id', middlewares.validationProducts, async (req, res) => {
         if (result) {
           return res.status(200).json({ id, name, quantity }); 
         }
-        res.status(404).json({ message: 'Product not found' });
+        return res.status(404).json({ message: 'Product not found' });
 });
 
 routes.delete('/:id', async (req, res) => {
@@ -47,7 +47,7 @@ routes.delete('/:id', async (req, res) => {
         if (result) {
           return res.status(204).json(result); 
         }
-        res.status(404).json({ message: 'Product not found' });
+        return res.status(404).json({ message: 'Product not found' });
 });
 
 routes.use(middlewares.errorHandler);

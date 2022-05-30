@@ -19,6 +19,7 @@ const getAll = async () => {
         INNER JOIN products p ON p.id = sp.product_id
         INNER JOIN sales s ON s.id = sp.sale_id;`,
         );
+        // console.log(result)
     return result.map(changeRequisition);
 };
 
@@ -29,6 +30,9 @@ const getById = async (id) => {
         INNER JOIN sales s ON s.id = sp.sale_id
         WHERE sale_id = ?`, [id],
         );
+        // console.log('result', result)
+        const [teste] = await connection.execute('SELECT * FROM sales_products');
+        console.log('teste', teste);
         return result.map(changeRequisitionById);
 };
 const addSalesNow = async () => {
@@ -55,14 +59,12 @@ const addSalesProducts = async (id, { productId, quantity }) => {
 
 const update = async (id, productId, quantity) => {
     const [result] = await connection.execute(
-    `UPDATE
-        sales_products 
-      SET 
-        quantity = ?
-      WHERE
-        sale_id = ? AND product_id = ?;`,
-      [quantity, id, productId],
+    `UPDATE sales_products 
+    SET quantity = ?
+    WHERE product_id = ? AND sale_id = ?;`,
+      [quantity, productId, id],
     );
+    // console.log(result)
     return result.affectedRows;
 };
 
@@ -116,7 +118,4 @@ module.exports = {
     stockProduct,
 };
 
-// {
-//     id: salesProducts.insertId, 
-//     itemsSold: 
-// };
+// SELECT * FROM StoreManager WHERE product_id = ? AND sale_id = ?

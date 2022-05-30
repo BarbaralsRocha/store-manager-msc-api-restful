@@ -10,7 +10,7 @@ const getSales = (id = null) => {
 const createSales = async (body) => {
     const idSales = await salesModel.addSalesNow();
     const result = await Promise.all(body.map((sales) => (
-        salesModel.addSalesProducts(idSales, sales))));
+    salesModel.addSalesProducts(idSales, sales))));
     console.log('result', result);
     if (result[0] === null) {
  return { status: 422, 
@@ -27,7 +27,7 @@ const createSales = async (body) => {
 };
 
 const updateSales = async (id, productId, quantity) => {
-    console.log(await salesModel.update(id, productId, quantity));
+    console.log('update', await salesModel.update(id, productId, quantity));
     await salesModel.update(id, productId, quantity);
     return {
         saleId: id,
