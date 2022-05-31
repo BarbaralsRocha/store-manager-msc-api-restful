@@ -4,23 +4,15 @@ const getAll = () => (
     connection.execute('SELECT * FROM products;')
 );
 
+// retorna array com obj
 const getById = (id) => connection.execute('SELECT * FROM products WHERE id = ?', [id]);
 
-const addProducts = async (name, quantity) => {
-    const [product] = await connection.execute(
+const addProducts = (name, quantity) => connection.execute(
         'INSERT INTO products (name, quantity) VALUES (?,?);', [name, quantity],
-      );
-    const result = {
-        id: product.insertId,
-        name,
-        quantity,
-    };
-    return result;
-};
+);
 
 const checkProducts = async (name) => {
     const [result] = await connection.execute('SELECT * FROM products WHERE name = ?;', [name]);
-    console.log(result.length);
     return result.length;
 };
 
@@ -31,7 +23,6 @@ const update = async (id, name, quantity) => {
         WHERE id = ?`,
       [name, quantity, id],
     );
-    console.log(result);
     return result.affectedRows;
 };
 

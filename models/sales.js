@@ -1,26 +1,13 @@
 const connection = require('../db');
 
-const changeRequisition = (result) => ({
-    saleId: result.sale_id,
-    date: result.date,
-    productId: result.product_id,
-    quantity: result.quantity,
-});
-
-const changeRequisitionById = (result) => ({
-    date: result.date,
-    productId: result.product_id,
-    quantity: result.quantity,
-});
-
 const getAll = async () => {
     const [result] = await connection.execute(
         `SELECT * FROM sales_products sp 
         INNER JOIN products p ON p.id = sp.product_id
         INNER JOIN sales s ON s.id = sp.sale_id;`,
         );
-        // console.log(result)
-    return result.map(changeRequisition);
+
+    return result;
 };
 
 const getById = async (id) => {
@@ -31,8 +18,9 @@ const getById = async (id) => {
         INNER JOIN sales s ON s.id = sp.sale_id
         WHERE sale_id = ?`, [id],
         );
-        return result.map(changeRequisitionById);
+        return result;
 };
+
 const addSalesNow = async () => {
     const today = new Date(Date.now()); // freeCodeCamp
     today.toISOString(); // freeCodeCamp
@@ -46,13 +34,11 @@ const addSalesProducts = async (id, { productId, quantity }) => {
     const [quantityProduct] = await connection.execute(
         'SELECT quantity FROM products WHERE id = ?', [productId],
 );
-        console.log('quantity', quantityProduct[0].quantity);
     if (quantityProduct[0].quantity - quantity <= 0) return null;
     const [salesProducts] = await connection.execute(
         'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);', 
         [id, productId, quantity],
     );
-    console.log(salesProducts);
     return salesProducts.affectedRows;
 };
 
@@ -63,7 +49,6 @@ const update = async (id, productId, quantity) => {
     WHERE product_id = ? AND sale_id = ?;`,
       [quantity, productId, id],
     );
-    // console.log(result)
     return result.affectedRows;
 };
 
