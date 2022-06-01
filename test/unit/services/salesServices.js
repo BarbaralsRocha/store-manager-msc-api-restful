@@ -6,28 +6,6 @@ const salesService = require('../../../services/sales');
 
 describe('teste do service', () => {
 
-    describe('quando cria uma venda com sucesso', async () => {
-        const requestSales = { id: 3 , 
-            itemsSold: [ 
-            {
-                "productId": 1,
-                "quantity": 1
-            }
-         ]  }
-      before(async () => {
-        sinon.stub(salesModel, 'addSalesProducts').resolves([1]);
-      });
-    
-      after(async () => {
-        salesModel.addSalesProducts.restore();
-      });
-  
-      it('retorna keys: id, itemsSold', async () => {
-        const {result} = await salesService.createSales([ { productId: 1, quantity: 1 } ]);
-        expect(result).to.include.all.keys('id', 'itemsSold');
-      });
-    });
-
     describe('quando atualiza uma venda', async () => {
 
           before(async () => {
