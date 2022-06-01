@@ -27,7 +27,6 @@ const addSalesProducts = async (id, { productId, quantity }) => {
     const [quantityProduct] = await connection.execute(
         'SELECT quantity FROM products WHERE id = ?', [productId],
 );
-console.log('venda', quantityProduct[0].quantity - quantity);
     if (quantityProduct[0].quantity - quantity <= 0) return null;
     const [salesProducts] = await connection.execute(
         'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);', 

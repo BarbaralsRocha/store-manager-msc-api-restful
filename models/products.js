@@ -23,7 +23,6 @@ const update = async (id, name, quantity) => {
         WHERE id = ?`,
       [name, quantity, id],
     );
-    console.log('result', result);
     return result.affectedRows;
 };
 

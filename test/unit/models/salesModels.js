@@ -16,7 +16,6 @@ describe("Insere uma nova venda no BD sales", () => {
   describe("quando é inserido com sucesso", async () => {
     it("retorna o id da venda", async () => {
       const response = await salesModel.addSalesNow();
-      console.log('resposne', response)
       expect(response).to.be.equal(3);
     });
   });
@@ -87,7 +86,7 @@ describe('Busca todas as vendas no BD', () => {
     });
 });
 
-describe('Buscar um produto no BD por ID', () => {
+describe('Buscar uma venda no BD por ID', () => {
     describe('quando encontra o ID', () => {
         const resultById = [
             {
@@ -136,14 +135,13 @@ describe('Buscar um produto no BD por ID', () => {
         });
         it('retorna um objeto', async () => {
           const response = await salesModel.getById(resultById[0].id);
-          console.log(response)
           expect(response).to.be.empty;
         });
     });
 
 });
 
-describe('Atualizar um produto no BD', () => {
+describe('Atualizar uma venda no BD', () => {
     describe('quando encontra o ID', () => {
         const putProducts =   [
             {
@@ -162,7 +160,6 @@ describe('Atualizar um produto no BD', () => {
       });
       it('retorna o objeto atualizado', async () => {
         const response = await salesModel.update(putProducts[0].productId, putProducts[0].quantity, putProducts[0].id);
-        console.log('att', response)
         expect(response).to.be.equal(1);
       });
     });

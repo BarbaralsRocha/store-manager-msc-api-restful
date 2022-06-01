@@ -16,11 +16,13 @@ const changeSnakeById = (result) => ({
 const getSales = async (id = null) => {
     if (id) {
         const [rows] = await salesModel.getById(id);
+        // console.log('rows',rows.map(changeSnakeById))
         return { result: rows.map(changeSnakeById) };
     }
     const [rows] = await salesModel.getAll();
-    console.log(rows.map(changeSnake));
-    return { result: rows.map(changeSnake) };
+    // console.log(await salesModel.getAll());
+    const sales = rows.map(changeSnake);
+    return { result: sales };
 };
 
 const createSales = async (body) => {
@@ -28,6 +30,7 @@ const createSales = async (body) => {
     const idSales = await salesModel.addSalesNow();
     const result = await Promise.all(body.map((sales) => (
     salesModel.addSalesProducts(idSales, sales))));
+    console.log('add', result);
     if (result.includes(null)) {
         return { result: null };
     } 
