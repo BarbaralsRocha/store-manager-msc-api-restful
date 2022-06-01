@@ -86,22 +86,8 @@ describe('teste do service', () => {
 
       describe('quando busca uma venda com sucesso', async () => {
         const resultExpected = [
-          {
-            sale_id: 1,
-            product_id: 2,
-            quantity: 20,
-            id: 1,
-            name: 'Traje de encolhimento',
-            date: '2022-06-01T21:38:58.000Z'
-          },
-          {
-            sale_id: 1,
-            product_id: 1,
-            quantity: 10,
-            id: 1,
-            name: 'Martelo de Thor',
-            date: '2022-06-01T21:38:58.000Z'
-          },
+          { date: '2022-06-01T21:38:58.000Z', productId: 2, quantity: 20 },
+          { date: '2022-06-01T21:38:58.000Z', productId: 1, quantity: 10 }
         ]
 
         before(async () => {
