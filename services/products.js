@@ -27,6 +27,7 @@ const createProducts = async ({ name, quantity }) => {
 
 const updateProducts = async (id, { name, quantity }) => {
     const result = await productsModel.update(id, name, quantity);
+    console.log(result);
     if (!result) {
         return { message: null };
     }

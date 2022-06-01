@@ -78,28 +78,6 @@ describe('teste do service', () => {
       });
     });
 
-    // describe('quando cria um produto com sucesso', async () => {
-    //     const requestProducts = { id: 4, name: 'manopola', quantity: 1 };
-    //   before(async () => {
-    //     sinon.stub(productsModel, 'addProducts').resolves({affectedRows:1});
-    //   });
-    
-    //   after(async () => {
-    //     productsModel.addProducts.restore();
-    //   });
-  
-    //   it('retorna um todos os produtos', async () => {
-    //     const { message } = await productsService.createProducts('manopola', 1);
-    //     expect(message).to.equal(requestProducts);
-    //   });
-  
-    //   it('retorna keys: id, name, quantity', async () => {
-    //     const { message } = await productsService.createProducts('manopola', 1);
-    //     expect(message).to.include.all.keys('id', 'name', 'quantity');
-    //   });
-    
-    // });
-  
     describe('quando atualiza um produto', async () => {
             const requestProducts = { id: '2', name: 'manopola', quantity: 1 } ;
 
@@ -131,20 +109,6 @@ describe('teste do service', () => {
         });
       });
 
-      describe('quando nao encontra o id a ser deletado', async () => {
-        before(async () => {
-
-          sinon.stub(productsModel, 'deleteProduct').resolves({affectedRows:0});
-        });
-        after(async () => {
-          productsModel.deleteProduct.restore();
-        });
-    
-        it('retorna 1 linha afetada', async () => {
-          const { message } = await productsService.deleteProducts(1);
-          expect(message.affectedRows).to.be.equal(0);
-        });
-      });
 
 });
 

@@ -1,18 +1,24 @@
 const connection = require('../db');
 
-const getAll = () => connection.execute(
+const getAll = async () => {
+    const [result] = await connection.execute(
         `SELECT * FROM sales_products sp 
         INNER JOIN products p ON p.id = sp.product_id
         INNER JOIN sales s ON s.id = sp.sale_id;`,
         );
+        return result;
+    };
 
-const getById = (id) => connection.execute(
+const getById = async (id) => {
+    const [result] = await connection.execute(
         `SELECT sp.quantity, sp.sale_id, sp.product_id, s.date 
         FROM sales_products sp 
         INNER JOIN products p ON p.id = sp.product_id
         INNER JOIN sales s ON s.id = sp.sale_id
         WHERE sale_id = ?`, [id],
         );
+        return result;
+    };
 
 const addSalesNow = async () => {
     const today = new Date(Date.now()); // freeCodeCamp

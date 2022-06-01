@@ -40,6 +40,49 @@ describe('teste do service', () => {
             expect(response.result).to.be.equal(requestSales.result);
           });
         });
+
+        describe('quando busca uma venda com sucesso', async () => {
+          const resultExpected = [
+            {
+              sale_id: 1,
+              product_id: 2,
+              quantity: 20,
+              id: 1,
+              name: 'Traje de encolhimento',
+              date: '2022-06-01T21:38:58.000Z'
+            },
+            {
+              sale_id: 1,
+              product_id: 1,
+              quantity: 10,
+              id: 1,
+              name: 'Martelo de Thor',
+              date: '2022-06-01T21:38:58.000Z'
+            },
+            {
+              sale_id: 2,
+              product_id: 3,
+              quantity: 30,
+              id: 2,
+              name: 'Escudo do Capitão América',
+              date: '2022-06-01T21:38:58.000Z'
+            }
+          ]
+
+          before(async () => {
+            sinon.stub(salesModel, 'getById').resolves(resultExpected);
+          });
+      
+          after(async () => {
+            salesModel.getById.restore();
+          });
+      
+          it('retorna keys: id, itemsSold', async () => {
+            const result = await salesService.getSales();
+            console.log('result sales', result)
+            expect(result.result).to.have.lengthOf(3)
+          });
+      });
 });
 
 
