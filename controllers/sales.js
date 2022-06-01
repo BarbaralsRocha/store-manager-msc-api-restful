@@ -1,14 +1,41 @@
 const sales = require('../services/sales');
 
-const getSales = (_req, res) => sales.getSales(null, _req, res);
+const getSales = async (_req, res) => {
+    const { result } = await sales.getSales();
+    return res.status(200).json(result);
+};
 
-const getSalesById = (req, res) => sales.getSales(req.params.id, req, res);
+const getSalesById = async (req, res) => {
+    const { result } = await sales.getSales(req.params.id, req, res);
+    if (result.length === 0) {
+        return res.status(404).json({ message: 'Sale not found' }); 
+    }
+    return res.status(200).json(result);
+};
 
-const createSale = (req, res) => sales.createSales(req.body, req, res);
+const createSale = async (req, res) => {
+    const { result } = await sales.createSales(req.body, req, res);
+    if (result === null) {
+        return res.status(422).json({ message: 'Such amount is not permitted to sell' });
+    }
+    return res.status(201).json(result);
+};
 
-const updateSale = (req, res) => sales.updateSales(+req.params.id, req.body, req, res);
+const updateSale = async (req, res) => {
+    const { result } = await sales.updateSales(+req.params.id, req.body, req, res);
+    if (result === null) {
+        return res.status(404).json({ message: 'Sale not found' });
+    }
+    return res.status(200).json(result);
+};
 
-const deleteSale = (req, res) => sales.deleteSales(req.params.id, req, res);
+const deleteSale = async (req, res) => {
+    const { result } = await sales.deleteSales(req.params.id, req, res);
+    if (result === null) {
+        return res.status(404).json({ message: 'Sale not found' });
+    }
+    return res.status(204).json();
+};
 
 module.exports = {
     getSales,

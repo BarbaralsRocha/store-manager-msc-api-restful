@@ -13,37 +13,36 @@ const changeSnakeById = (result) => ({
     quantity: result.quantity,
 });
 
-const getSales = async (id = null, _req, res) => {
+const getSales = async (id = null) => {
     if (id) {
-        const rows = await salesModel.getById(id);
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'Sale not found' }); 
-        }
-        return res.status(200).json(rows.map(changeSnakeById));
+        const [rows] = await salesModel.getById(id);
+        return { result: rows.map(changeSnakeById) };
     }
-    const rows = await salesModel.getAll();
-    return res.status(200).json(rows.map(changeSnake));
+    const [rows] = await salesModel.getAll();
+    console.log(rows.map(changeSnake));
+    return { result: rows.map(changeSnake) };
 };
 
-const createSales = async (body, _req, res) => {
+const createSales = async (body) => {
+    console.log(body);
     const idSales = await salesModel.addSalesNow();
     const result = await Promise.all(body.map((sales) => (
     salesModel.addSalesProducts(idSales, sales))));
-    if (result[0] === null) {
-        return res.status(422).json({ message: 'Such amount is not permitted to sell' });
+    if (result.includes(null)) {
+        return { result: null };
     } 
-    console.log('stock', await salesModel.stockProduct(body[0].productId, idSales));
-    return res.status(201).json({
+    await salesModel.stockProduct(body[0].productId, idSales);
+    return { result: {
         id: idSales,
         itemsSold: body,
-        });
+        } };
 };
 
-const updateSales = async (id, body, _req, res) => {
+const updateSales = async (id, body) => {
     const [{ productId, quantity }] = body;
     const result = await salesModel.update(id, productId, quantity);
     if (!result) {
-        return res.status(404).json({ message: 'Sale not found' });
+        return { result: null };
     }
     const itemUpdate = {
         saleId: id,
@@ -54,13 +53,13 @@ const updateSales = async (id, body, _req, res) => {
             },
         ],
     };
-    return res.status(200).json(itemUpdate);
+    return { result: itemUpdate };
 };
 
-const deleteSales = async (id, req, res) => {
+const deleteSales = async (id) => {
     const result = await salesModel.deleteSales(id);
-    if (!result) return res.status(404).json({ message: 'Sale not found' });
-    return res.status(204).json(); 
+    if (!result) return { result: null };
+    return { result: '' }; 
 };
 
 module.exports = {
@@ -68,5 +67,4 @@ module.exports = {
     createSales,
     updateSales,
     deleteSales,
-    // stockSales,
 };

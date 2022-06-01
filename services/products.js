@@ -1,45 +1,40 @@
 const productsModel = require('../models/products');
 
-const getProducts = async (id = null, _req, res) => {
+const getProducts = async (id = null) => {
     if (id) {
         const [rows] = await productsModel.getById(id);
-        if (!rows[0]) {
-            return res.status(404).json({ message: 'Product not found' });
-        }
-        return res.status(200).json(rows[0]);
+        return { status: 200, message: rows[0] };
     }
     const [rows] = await productsModel.getAll();
-    console.log('rows', rows);
-    return res.status(200).json(rows);
+    console.log({ status: 200, message: rows });
+    return { status: 200, message: rows };
 };
 
-const createProducts = async ({ name, quantity }, _req, res) => {
+const createProducts = async ({ name, quantity }) => {
     const checkProducts = await productsModel.checkProducts(name);
     if (checkProducts) {
-        return res.status(409).json({ message: 'Product already exists' });
+        return { message: null };
     }
     const [result] = await productsModel.addProducts(name, quantity);
-    return res.status(201).json({
+    return { status: 201,
+            message: {
         id: result.insertId,
         name,
         quantity,
-    });
+    } };
 };
 
-const updateProducts = async (id, { name, quantity }, _req, res) => {
+const updateProducts = async (id, { name, quantity }) => {
     const result = await productsModel.update(id, name, quantity);
     if (!result) {
-        return res.status(404).json({ message: 'Product not found' });
+        return { status: 404, message: null };
     }
-    return res.status(200).json({ id, name, quantity }); 
+    return { status: 200, message: { id, name, quantity } };
 };
 
-const deleteProducts = async (id, _req, res) => {
+const deleteProducts = async (id) => {
     const result = await productsModel.deleteProduct(id);
-    if (result) {
-        return res.status(204).json();
-      }
-      return res.status(404).json({ message: 'Product not found' });
+    return { status: 204, message: result };
 };
 
 module.exports = {
