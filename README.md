@@ -20,4 +20,4 @@
  - Desenvolvimento em CRUD
  - Arquitetura MSC
 
-### Projeto realizado por Bárbara Rochaa
+### Projeto realizado por Bárbara Rocha
